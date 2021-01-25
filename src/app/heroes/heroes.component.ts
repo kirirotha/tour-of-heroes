@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
-import { HEROES } from '../mock-heroes'
+import { HeroService } from '../hero.service';
 
 @Component({
   // selector— the component's CSS element selector
@@ -13,7 +13,7 @@ import { HEROES } from '../mock-heroes'
 export class HeroesComponent implements OnInit {
 
 
-  heroes = HEROES;
+  heroes?: Hero[];
 
   selectedHero?: Hero;
 
@@ -21,12 +21,16 @@ export class HeroesComponent implements OnInit {
     this.selectedHero = hero;
   }
 
+  getHeroes(): void{
+    this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
+  }
 
-  constructor() { }
+  constructor(private heroService: HeroService) { }
 
 
   // The ngOnInit() is a lifecycle hook. Angular calls ngOnInit() shortly after creating a component
   ngOnInit(): void {
+    this.getHeroes();
   }
 
 
